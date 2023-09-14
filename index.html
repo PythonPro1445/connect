@@ -3,7 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://www.gstatic.com/firebasejs/7.6.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.6.2/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/live/3.1/firebase.js"></script>
     <title>Connect - Login Site</title>
+    <img src="Screenshot_2023-09-14_at_9.30.18_AM-removebg-preview.png">
     <style>
         body {
             margin: 0;
@@ -133,7 +137,8 @@ function addUser() {
 
   var credentials = {
     Samarth: "samarth",
-    Arjun: "stephcurry008"    
+    Arjun: "stephcurry008",
+    Pranav: "getrickrolled"    
   };
 
   if (credentials.hasOwnProperty(user_name) && credentials[user_name] === password) {
