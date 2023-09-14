@@ -27,7 +27,8 @@
             animation-name: keyframesformainpage;
             animation-duration: 4s;
             animation-iteration-count: infinite;
-            width: 500px;
+            max-width: 500px;
+            width: 90%;
         }
 
         @keyframes keyframesformainpage {
@@ -47,9 +48,9 @@
 
         input[type="text"],
         input[type="password"] {
-            width: 90%;
+            width: 95%;
             padding: 10px;
-            margin: 0 0;
+            margin: 0;
             border: 1px solid #ccc;
             border-radius: 5px;
             outline: none;
@@ -62,49 +63,101 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            width: 100%;
+            font-size: 25px;
+            font-family: monospace;
+        }
+
+        .loading-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        .loading-text {
+            color: white;
+            font-size: 24px;
         }
     </style>
 </head>
 <body>
     <div class="login-container">
+        <!-- You can add your logo here -->
         <img src="Screenshot_2023-09-14_at_9.30.18_AM-removebg-preview.png" style="width: 300px;">
-        <form onsubmit="return loginuser()">
+        <form id="login-form">
             <div>
                 <label for="username">Username</label>
+                <br>
                 <input type="text" id="username" placeholder="Enter your username">
             </div>
             <div>
                 <label for="password">Password</label>
-                <input type="password" id="password" placeholder="Enter your password">
                 <br>
+                <input type="password" id="password" placeholder="Enter your password">
             </div>
             <br>
-            <input type="submit" value="Login" style="width: 300px; font-size: 25px; font-family: monospace;">
+            <input type="submit" value="Login" style="width: 100%;">
         </form>
     </div>
-</body>
-<script>
-    function loginuser() {
-        var user_name = document.getElementById("username").value;
-        var password = document.getElementById("password").value;
 
-        var credentials = {
-            Samarth: "samarth",
-            Arjun: "stephcurry008",
-            Pranav: "getrickrolled"
-        };
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loading-overlay">
+        <div class="loading-text">Logging in...</div>
+    </div>
 
-        if (credentials.hasOwnProperty(user_name) && credentials[user_name] === password) {
-            localStorage.setItem("user_name", user_name);
-            console.log("Authentication successful!");
-            window.location.href = "pg2index.html"; // Redirect to the next page
-            return false; // Prevent form submission
-        } else {
-            localStorage.removeItem("user_name");
-            console.log("Authentication failed!");
-            alert("Incorrect Username Or Password");
-            return false; // Prevent form submission
+    <script>
+        // Function to show the loading overlay
+        function showLoadingOverlay() {
+            var loadingOverlay = document.getElementById("loading-overlay");
+            loadingOverlay.style.display = "flex";
         }
-    }
-</script>
+
+        // Function to hide the loading overlay
+        function hideLoadingOverlay() {
+            var loadingOverlay = document.getElementById("loading-overlay");
+            loadingOverlay.style.display = "none";
+        }
+
+        // Function to handle form submission
+        function loginuser() {
+            showLoadingOverlay();
+
+            var user_name = document.getElementById("username").value;
+            var password = document.getElementById("password").value;
+
+            var credentials = {
+                Pranav: "getrickrolled",
+                Samarth: "samarth",
+                Arjun: "stephcurry008"
+            };
+
+            setTimeout(function () {
+                if (credentials.hasOwnProperty(user_name) && credentials[user_name] === password) {
+                    localStorage.setItem("user_name", user_name);
+                    console.log("Authentication successful!");
+                    window.location.href = "pg2index.html";
+                } else {
+                    localStorage.removeItem("user_name");
+                    console.log("Authentication failed!");
+                    alert("Incorrect Username Or Password");
+                }
+
+                hideLoadingOverlay();
+            }, 2000);
+        }
+
+        // Add an event listener to submit the form when Enter key is pressed
+        document.getElementById("login-form").addEventListener("submit", function (e) {
+            e.preventDefault();
+            loginuser();
+        });
+    </script>
+</body>
 </html>
