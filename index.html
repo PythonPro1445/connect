@@ -81,14 +81,20 @@
             z-index: 9999;
         }
 
-        .loading-text {
-            color: rgb(0, 0, 0);
-            font-size: 40px;
-            margin-top: 70px;
+        .loading-spinner {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
-        .loading-spinner {
-            width: 300px; /* Adjust the size of the spinner */
+        .loading-text {
+            color: #333;
+            font-size: 18px;
+            margin-top: 10px;
+        }
+
+        .loading-spinner img {
+            width: 100px; /* Adjust the size of the spinner */
         }
     </style>
 </head>
@@ -115,8 +121,8 @@
     <div class="loading-overlay" id="loading-overlay">
         <div class="loading-spinner">
             <img src="loading.gif" alt="Loading Spinner">
+            <div class="loading-text">Fetching XHR Chats</div>
         </div>
-        <div class="loading-text" id="loading-text">Fetching XHR Chats</div>
     </div>
 
     <script>
