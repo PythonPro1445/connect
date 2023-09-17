@@ -171,12 +171,40 @@
     margin-right: 10px; /* Add spacing between logo and text */
     vertical-align: middle; /* Align the logo vertically */
 }
+
+#background-gallery {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1; /* Place it behind other content */
+            transition: background-image 1s ease-in-out; /* Smooth transition effect */
+        }
+
+        /* Define the keyframes for the fade-in animation */
+        @keyframes fadeIn {
+            0% {
+                opacity: 0; /* Start with transparency */
+            }
+            100% {
+                opacity: 1; /* Fully opaque at the end */
+            }
+        }
+
+        /* Apply the animation to the background gallery element */
+        #background-gallery.fade-in {
+            animation: fadeIn 2s ease-in-out;
+        }
+
     </style>
 </head>
 <body>
+    <div id="background-gallery"></div>
+
     <div class="image-and-text-container">
         <img src="Screenshot_2023-09-14_at_9.30.18_AM-removebg-preview.png" alt="Logo">
-        <h2 style="padding-right: 160px;">Sign in or Create an Account</h2>
+        <h2 style="padding-right: 160px; color: white;">Sign in or Create an Account</h2>
     </div>
     <div class="login-container">        
         <form id="login-form">
@@ -225,6 +253,31 @@
     </div>
 
     <script>
+        const imageUrls = [
+    'image1.jpg',
+    'image2.jpg',
+    'image3.jpg',
+    'image4.jpg',
+    'image5.jpg',
+    'image6.jpg',
+    'image7.jpg',
+    'image8.jpg',
+    'image9.jpg',
+    'image10.jpg'
+];
+
+function changeBackgroundImage() {
+    const randomIndex = Math.floor(Math.random() * imageUrls.length);
+    const imageUrl = imageUrls[randomIndex];
+    const backgroundGallery = document.getElementById('background-gallery');
+    backgroundGallery.style.backgroundImage = `url(${imageUrl})`;
+}
+
+// Change the background image initially and set an interval to change it every 20 seconds
+changeBackgroundImage();
+setInterval(changeBackgroundImage, 10000); // 10 seconds
+
+
         // Function to show the loading overlay
         function showLoadingOverlay() {
             var loadingOverlay = document.getElementById("loading-overlay");
