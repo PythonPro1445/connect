@@ -300,19 +300,23 @@ setInterval(changeBackgroundImage, 10000); // 10 seconds
             var credentials = {
                 Pranav: "getrickrolled",
                 Samarth: "samarth",
-                Arjun: "stephcurry008"
+                Arjun: "stephcurry008",
+                Krish: "krish07",
+                Jamie: "rickroller"
             };
 
             setTimeout(function () {
-                if (credentials.hasOwnProperty(user_name) && credentials[user_name] === password) {
-                    localStorage.setItem("user_name", user_name);
-                    console.log("Authentication successful!");
-                    window.location.href = "pg2index.html";
-                } else {
-                    localStorage.removeItem("user_name");
-                    console.log("Authentication failed!");
-                    alert("Incorrect Username Or Password");
-                }
+// Inside the loginuser() function after successful authentication
+if (credentials.hasOwnProperty(user_name) && credentials[user_name] === password) {
+    localStorage.setItem("user_name", user_name);
+    console.log("Authentication successful!");
+    window.location.href = "pg2index.html";
+} else {
+    localStorage.removeItem("user_name");
+    console.log("Authentication failed!");
+    alert("Incorrect Username Or Password");
+}
+
 
                 hideLoadingOverlay();
             }, 5000);

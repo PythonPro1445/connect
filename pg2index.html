@@ -14,29 +14,67 @@
             padding: 0;
             font-family: Arial, sans-serif;
             background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden; /* Prevent scrolling of the entire page */
+
         }
 
         .container {
-            max-width: 1440px;
-            height: 640px; /* Adjusted height for 13-inch MacBook Air */
-            margin: 0 auto;
-            padding: 20px;
+            width: 2000px;
+            height: 810;
+            display: flex;
+            max-width: 100%;
             background-color: #fff;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
             border-radius: 5px;
         }
 
+        .contacts {
+            width: 30%;
+            height: 1003px;
+            padding: 20px;
+            border-right: 1px solid #ccc;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            margin: 10px 0;
+            padding: 5px;
+            background-color: #007BFF;
+            color: #fff;
+            border-radius: 5px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .chat-box-container {
+            flex-grow: 2;
+            padding: 20px;
+        }
+
         h1 {
             text-align: center;
             color: #333;
+            margin-bottom: 20px;
         }
 
         .chat-box {
             border: 1px solid #ccc;
             padding: 10px;
-            height: 300px; /* Adjusted height for 13-inch MacBook Air */
+            height: 600px;
             overflow-y: scroll;
-            margin-bottom: 20px;
         }
 
         .message {
@@ -52,21 +90,21 @@
             text-align: right;
         }
 
-        .message.user::before {
-            content: "You:";
-        }
-
         .message.other {
             background-color: #ccc;
         }
 
         .message.other::before {
-            content: "Friend:";
+            content: "Friend: ";
         }
 
         .input-box {
             display: flex;
             justify-content: space-between;
+            padding: 10px;
+            padding-top: 30px;
+            background-color: #fff;
+            border-top: 1px solid #ccc;
         }
 
         input[type="text"] {
@@ -89,20 +127,32 @@
 </head>
 <body>
     <div class="container">
-        <h1>Chat Room</h1>
-        <div class="chat-box" id="chat-box">
-            <!-- Chat messages will appear here -->
+        <div class="contacts">
+            <h2>Contact List</h2>
+            <ul>
+                <li>Contact 1</li>
+                <li>Contact 2</li>
+                <li>Contact 3</li>
+                <!-- Add more contacts as needed -->
+            </ul>
         </div>
-        <div class="input-box">
-            <input type="text" id="message" placeholder="Type your message..." onkeydown="if (event.keyCode === 13) sendMessage();">
-            <button onclick="sendMessage()">Send</button>
+
+        <div class="chat-box-container">
+            <h1>Chat Room</h1>
+            <div class="chat-box" id="chat-box">
+                <!-- Chat messages will appear here -->
+            </div>
+            <div class="input-box">
+                <input type="text" id="message" placeholder="Type your message..." onkeydown="if (event.keyCode === 13) sendMessage();">
+                <button onclick="sendMessage()">Send</button>
+            </div>
         </div>
     </div>
 
     <script>
         // Your web app's Firebase configuration
         // (Firebase initialization code remains the same)
-        const firebaseConfig = {
+const firebaseConfig = {
   apiKey: "AIzaSyCPSOYTRq8OnwCBvbqdocxSM-UkwtQqCpk",
   authDomain: "connect-e6403.firebaseapp.com",
   databaseURL: "https://connect-e6403-default-rtdb.firebaseio.com",
@@ -113,28 +163,33 @@
   measurementId: "G-F04TPY9C61"
 };
 
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig);
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+
         // Reference to the Firebase Realtime Database
         var database = firebase.database();
         var chatRef = database.ref("chat");
 
-        // Function to send a message
-        function sendMessage() {
-            const messageInput = document.getElementById("message");
-            const messageText = messageInput.value.trim();
+// Inside the sendMessage() function in pg2index.html
+function sendMessage() {
+    const messageInput = document.getElementById("message");
+    const messageText = messageInput.value.trim();
 
-            if (messageText !== "") {
-                // Save the message to Firebase
-                chatRef.push({
-                    text: messageText,
-                    sender: "user"
-                });
+    // Retrieve the username from local storage
+    const userName = localStorage.getItem("user_name");
 
-                // Clear the message input field
-                messageInput.value = "";
-            }
-        }
+    if (messageText !== "") {
+        // Save the message to Firebase with the sender's name
+        chatRef.push({
+            text: messageText,
+            sender: userName, // Use the retrieved username as the sender
+        });
+
+        // Clear the message input field
+        messageInput.value = "";
+    }
+}
+
 
         // Function to receive messages from Firebase
         chatRef.on("child_added", function(snapshot) {
@@ -156,11 +211,6 @@ firebase.initializeApp(firebaseConfig);
                 sender: "friend"
             });
         }
-
-        // Simulate receiving a message after a delay
-        setTimeout(function () {
-            receiveMessage("Hello! How are you?");
-        }, 2000);
     </script>
 </body>
 </html>
