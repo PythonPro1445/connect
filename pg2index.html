@@ -34,7 +34,7 @@
 
         .contacts {
             width: 30%;
-            height: 1003px;
+            height: 1000px;
             padding: 20px;
             border-right: 1px solid #ccc;
         }
@@ -48,16 +48,16 @@
             list-style: none;
             padding: 0;
         }
-
-        li {
-            margin: 10px 0;
-            padding: 5px;
-            background-color: #007BFF;
-            color: #fff;
-            border-radius: 5px;
-            text-align: center;
-            cursor: pointer;
-        }
+/* Update the styles for the contacts (li elements) */
+li {
+    padding: 10px;
+    padding-left: 20px; /* Increase padding for top and bottom */
+    margin: 10px 0;
+    background-color: #007BFF;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+}
 
         .chat-box-container {
             flex-grow: 2;
@@ -130,9 +130,11 @@
         <div class="contacts">
             <h2>Contact List</h2>
             <ul>
-                <li>Contact 1</li>
-                <li>Contact 2</li>
-                <li>Contact 3</li>
+                <li>Pranav Nair</li>
+                <li>Jamie Ziegler</li>
+                <li>Samarth Datar</li>
+                <li>Arjun Randhawa</li>
+                <li>Aryan Dixit</li>
                 <!-- Add more contacts as needed -->
             </ul>
         </div>
@@ -166,23 +168,21 @@ const firebaseConfig = {
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
 
-        // Reference to the Firebase Realtime Database
-        var database = firebase.database();
-        var chatRef = database.ref("chat");
+// Reference to the Firebase Realtime Database
+var database = firebase.database();
+var chatRef = database.ref("Pranav Nair");
+var typingRef = database.ref("typing"); // New reference for typing status
 
-// Inside the sendMessage() function in pg2index.html
+// Function to send a message
 function sendMessage() {
     const messageInput = document.getElementById("message");
     const messageText = messageInput.value.trim();
-
-    // Retrieve the username from local storage
     const userName = localStorage.getItem("user_name");
 
     if (messageText !== "") {
-        // Save the message to Firebase with the sender's name
         chatRef.push({
             text: messageText,
-            sender: userName, // Use the retrieved username as the sender
+            sender: userName,
         });
 
         // Clear the message input field
@@ -190,6 +190,70 @@ function sendMessage() {
     }
 }
 
+// Function to handle typing status
+function handleTyping(isTyping) {
+    const userName = localStorage.getItem("user_name");
+
+    // Update typing status in Firebase
+    typingRef.child(userName).set(isTyping);
+}
+
+// Function to receive messages from Firebase
+chatRef.on("child_added", function(snapshot) {
+    // ... Your existing code ...
+
+    chatBox.scrollTop = chatBox.scrollHeight;
+});
+
+// Listen for changes in typing status
+typingRef.on("child_changed", function(snapshot) {
+    const userName = snapshot.key;
+    const isTyping = snapshot.val();
+
+    // Display "is typing" message
+    if (isTyping) {
+        // Create a message indicating the user is typing
+        const typingMessage = document.createElement("div");
+        typingMessage.classList.add("message", "typing");
+        typingMessage.textContent = `${userName} is typing...`;
+
+        chatBox.appendChild(typingMessage);
+
+        // Scroll to the bottom of the chat box
+        chatBox.scrollTop = chatBox.scrollHeight;
+    } else {
+        // Remove the "is typing" message when the user stops typing
+        const typingMessages = document.querySelectorAll(".message.typing");
+        typingMessages.forEach(function(element) {
+            element.remove();
+        });
+    }
+});
+
+
+        // Reference to the Firebase Realtime Database
+        var database = firebase.database();
+        var chatRef = database.ref("chat");
+
+        // Function to send a message
+        function sendMessage() {
+            const messageInput = document.getElementById("message");
+            const messageText = messageInput.value.trim();
+
+            // Retrieve the username from local storage
+            const userName = localStorage.getItem("user_name");
+
+            if (messageText !== "") {
+                // Save the message to Firebase with the sender's name
+                chatRef.push({
+                    text: messageText,
+                    sender: userName, // Use the retrieved username as the sender
+                });
+
+                // Clear the message input field
+                messageInput.value = "";
+            }
+        }
 
         // Function to receive messages from Firebase
         chatRef.on("child_added", function(snapshot) {
@@ -197,7 +261,10 @@ function sendMessage() {
             var chatBox = document.getElementById("chat-box");
             var messageDiv = document.createElement("div");
             messageDiv.classList.add("message", message.sender);
-            messageDiv.textContent = message.text;
+            
+            // Display sender's name along with the message
+            messageDiv.innerHTML = `<strong>${message.sender}:</strong> ${message.text}`;
+
             chatBox.appendChild(messageDiv);
 
             // Scroll to the bottom of the chat box
@@ -211,6 +278,43 @@ function sendMessage() {
                 sender: "friend"
             });
         }
+
+        function switchChat(user) {
+    // Update the chatRef to the selected user's chat room
+    chatRef = database.ref(user);
+    
+    // Clear existing chat messages
+    chatBox.innerHTML = '';
+    
+    // Load and display the chat messages between the current user and the selected user
+    chatRef.on("child_added", function(snapshot) {
+        // Display the messages
+        // You can differentiate between messages sent by the current user and the other user
+        const message = snapshot.val();
+        const messageDiv = document.createElement("div");
+        messageDiv.classList.add("message");
+        if (message.sender === localStorage.getItem("user_name")) {
+            messageDiv.classList.add("user");
+        } else {
+            messageDiv.classList.add("other");
+        }
+        messageDiv.textContent = message.text;
+        chatBox.appendChild(messageDiv);
+    });
+}
+
+// Example event listener for Pranav Nair
+const pranavNair = document.querySelector('#pranavNair');
+pranavNair.addEventListener('click', function() {
+    switchChat('Pranav Nair');
+});
+
+// Example event listener for Arjun Randhawa
+const arjunRandhawa = document.querySelector('#arjunRandhawa');
+arjunRandhawa.addEventListener('click', function() {
+    switchChat('Arjun Randhawa');
+});
+
     </script>
 </body>
 </html>
