@@ -19,7 +19,6 @@
             align-items: center;
             min-height: 100vh;
             overflow: hidden; /* Prevent scrolling of the entire page */
-
         }
 
         .container {
@@ -48,16 +47,17 @@
             list-style: none;
             padding: 0;
         }
-/* Update the styles for the contacts (li elements) */
-li {
-    padding: 10px;
-    padding-left: 20px; /* Increase padding for top and bottom */
-    margin: 10px 0;
-    background-color: #007BFF;
-    color: #fff;
-    border-radius: 5px;
-    cursor: pointer;
-}
+
+        /* Update the styles for the contacts (li elements) */
+        li {
+            padding: 10px;
+            padding-left: 20px; /* Increase padding for top and bottom */
+            margin: 10px 0;
+            background-color: #007BFF;
+            color: #fff;
+            border-radius: 5px;
+            cursor: pointer;
+        }
 
         .chat-box-container {
             flex-grow: 2;
@@ -130,12 +130,12 @@ li {
         <div class="contacts">
             <h2>Contact List</h2>
             <ul>
-                <li>Pranav Nair</li>
-                <li>Jamie Ziegler</li>
-                <li>Samarth Datar</li>
-                <li>Arjun Randhawa</li>
-                <li>Aryan Dixit</li>
-                <!-- Add more contacts as needed -->
+                <li id="pranavNair">Pranav Nair</li>
+                <li id="jamieZiegler">Jamie Ziegler</li>
+                <li id="samarthDatar">Samarth Datar</li>
+                <li id="arjunRandhawa">Arjun Randhawa</li>
+                <li id="aryanDixit">Aryan Dixit</li>
+                <li id="Everyone">Aryan Dixit</li>
             </ul>
         </div>
 
@@ -153,101 +153,36 @@ li {
 
     <script>
         // Your web app's Firebase configuration
-        // (Firebase initialization code remains the same)
-const firebaseConfig = {
-  apiKey: "AIzaSyCPSOYTRq8OnwCBvbqdocxSM-UkwtQqCpk",
-  authDomain: "connect-e6403.firebaseapp.com",
-  databaseURL: "https://connect-e6403-default-rtdb.firebaseio.com",
-  projectId: "connect-e6403",
-  storageBucket: "connect-e6403.appspot.com",
-  messagingSenderId: "839666960590",
-  appId: "1:839666960590:web:1827fe7de8a33eb2c9a89f",
-  measurementId: "G-F04TPY9C61"
-};
+        const firebaseConfig = {
+            apiKey: "AIzaSyCPSOYTRq8OnwCBvbqdocxSM-UkwtQqCpk",
+            authDomain: "connect-e6403.firebaseapp.com",
+            databaseURL: "https://connect-e6403-default-rtdb.firebaseio.com",
+            projectId: "connect-e6403",
+            storageBucket: "connect-e6403.appspot.com",
+            messagingSenderId: "839666960590",
+            appId: "1:839666960590:web:1827fe7de8a33eb2c9a89f",
+            measurementId: "G-F04TPY9C61"
+        };
 
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
 
-// Reference to the Firebase Realtime Database
-var database = firebase.database();
-var chatRef = database.ref("Pranav Nair");
-var typingRef = database.ref("typing"); // New reference for typing status
-
-// Function to send a message
-function sendMessage() {
-    const messageInput = document.getElementById("message");
-    const messageText = messageInput.value.trim();
-    const userName = localStorage.getItem("user_name");
-
-    if (messageText !== "") {
-        chatRef.push({
-            text: messageText,
-            sender: userName,
-        });
-
-        // Clear the message input field
-        messageInput.value = "";
-    }
-}
-
-// Function to handle typing status
-function handleTyping(isTyping) {
-    const userName = localStorage.getItem("user_name");
-
-    // Update typing status in Firebase
-    typingRef.child(userName).set(isTyping);
-}
-
-// Function to receive messages from Firebase
-chatRef.on("child_added", function(snapshot) {
-    // ... Your existing code ...
-
-    chatBox.scrollTop = chatBox.scrollHeight;
-});
-
-// Listen for changes in typing status
-typingRef.on("child_changed", function(snapshot) {
-    const userName = snapshot.key;
-    const isTyping = snapshot.val();
-
-    // Display "is typing" message
-    if (isTyping) {
-        // Create a message indicating the user is typing
-        const typingMessage = document.createElement("div");
-        typingMessage.classList.add("message", "typing");
-        typingMessage.textContent = `${userName} is typing...`;
-
-        chatBox.appendChild(typingMessage);
-
-        // Scroll to the bottom of the chat box
-        chatBox.scrollTop = chatBox.scrollHeight;
-    } else {
-        // Remove the "is typing" message when the user stops typing
-        const typingMessages = document.querySelectorAll(".message.typing");
-        typingMessages.forEach(function(element) {
-            element.remove();
-        });
-    }
-});
-
-
         // Reference to the Firebase Realtime Database
         var database = firebase.database();
-        var chatRef = database.ref("chat");
+        var chatRef = database.ref("Pranav Nair");
+        var typingRef = database.ref("typing"); // New reference for typing status
+        var chatBox = document.getElementById("chat-box");
 
         // Function to send a message
         function sendMessage() {
             const messageInput = document.getElementById("message");
             const messageText = messageInput.value.trim();
-
-            // Retrieve the username from local storage
             const userName = localStorage.getItem("user_name");
 
             if (messageText !== "") {
-                // Save the message to Firebase with the sender's name
                 chatRef.push({
                     text: messageText,
-                    sender: userName, // Use the retrieved username as the sender
+                    sender: userName,
                 });
 
                 // Clear the message input field
@@ -255,13 +190,74 @@ typingRef.on("child_changed", function(snapshot) {
             }
         }
 
+        // Function to handle typing status
+        function handleTyping(isTyping) {
+            const userName = localStorage.getItem("user_name");
+
+            // Update typing status in Firebase
+            typingRef.child(userName).set(isTyping);
+        }
+
+// Function to receive messages from Firebase
+chatRef.on("child_added", function(snapshot) {
+    // Get the message data
+    var message = snapshot.val();
+    
+    // Create a new message element
+    var messageDiv = document.createElement("div");
+    messageDiv.classList.add("message");
+
+    // Determine if the message is from the current user or another user
+    if (message.sender === localStorage.getItem("user_name")) {
+        messageDiv.classList.add("user");
+        messageDiv.innerHTML = `<strong>You:</strong> ${message.text}`;
+    } else {
+        messageDiv.classList.add("other");
+        messageDiv.innerHTML = `<strong>${message.sender}:</strong> ${message.text}`;
+    }
+
+    // Append the message element to the chat box
+    chatBox.appendChild(messageDiv);
+
+    // Scroll to the bottom of the chat box
+    chatBox.scrollTop = chatBox.scrollHeight;
+});
+
+
+        // Listen for changes in typing status
+        typingRef.on("child_changed", function(snapshot) {
+            const userName = snapshot.key;
+            const isTyping = snapshot.val();
+
+            // Display "is typing" message
+            if (isTyping) {
+                // Create a message indicating the user is typing
+                const typingMessage = document.createElement("div");
+                typingMessage.classList.add("message", "typing");
+                typingMessage.textContent = `${userName} is typing...`;
+
+                chatBox.appendChild(typingMessage);
+
+                // Scroll to the bottom of the chat box
+                chatBox.scrollTop = chatBox.scrollHeight;
+            } else {
+                // Remove the "is typing" message when the user stops typing
+                const typingMessages = document.querySelectorAll(".message.typing");
+                typingMessages.forEach(function(element) {
+                    element.remove();
+                });
+            }
+        });
+
+        // Reference to the Firebase Realtime Database
+        var chatRef = database.ref("chat");
+
         // Function to receive messages from Firebase
         chatRef.on("child_added", function(snapshot) {
             var message = snapshot.val();
-            var chatBox = document.getElementById("chat-box");
             var messageDiv = document.createElement("div");
             messageDiv.classList.add("message", message.sender);
-            
+
             // Display sender's name along with the message
             messageDiv.innerHTML = `<strong>${message.sender}:</strong> ${message.text}`;
 
@@ -282,10 +278,10 @@ typingRef.on("child_changed", function(snapshot) {
         function switchChat(user) {
     // Update the chatRef to the selected user's chat room
     chatRef = database.ref(user);
-    
+
     // Clear existing chat messages
     chatBox.innerHTML = '';
-    
+
     // Load and display the chat messages between the current user and the selected user
     chatRef.on("child_added", function(snapshot) {
         // Display the messages
@@ -293,26 +289,56 @@ typingRef.on("child_changed", function(snapshot) {
         const message = snapshot.val();
         const messageDiv = document.createElement("div");
         messageDiv.classList.add("message");
+
+        // Check if the message is from the current user or the selected user
         if (message.sender === localStorage.getItem("user_name")) {
             messageDiv.classList.add("user");
+            messageDiv.innerHTML = `<strong>You:</strong> ${message.text}`;
         } else {
             messageDiv.classList.add("other");
+            messageDiv.innerHTML = `<strong>${message.sender}:</strong> ${message.text}`;
         }
-        messageDiv.textContent = message.text;
+
         chatBox.appendChild(messageDiv);
     });
 }
 
-// Example event listener for Pranav Nair
-const pranavNair = document.querySelector('#pranavNair');
-pranavNair.addEventListener('click', function() {
-    switchChat('Pranav Nair');
+
+
+        // Example event listener for Pranav Nair
+        const pranavNair = document.querySelector('#pranavNair');
+        pranavNair.addEventListener('click', function() {
+            switchChat('Pranav Nair');
+        });
+
+        // Example event listener for Arjun Randhawa
+        const arjunRandhawa = document.querySelector('#arjunRandhawa');
+        arjunRandhawa.addEventListener('click', function() {
+            switchChat('Arjun Randhawa');
+        });
+
+        // Example event listener for Jamie Ziegler
+const jamieZiegler = document.querySelector('#jamieZiegler');
+jamieZiegler.addEventListener('click', function() {
+    switchChat('Jamie Ziegler');
 });
 
-// Example event listener for Arjun Randhawa
-const arjunRandhawa = document.querySelector('#arjunRandhawa');
-arjunRandhawa.addEventListener('click', function() {
-    switchChat('Arjun Randhawa');
+// Example event listener for Samarth Datar
+const samarthDatar = document.querySelector('#samarthDatar');
+samarthDatar.addEventListener('click', function() {
+    switchChat('Samarth Datar');
+});
+
+// Example event listener for Aryan Dixit
+const aryanDixit = document.querySelector('#aryanDixit');
+aryanDixit.addEventListener('click', function() {
+    switchChat('Aryan Dixit');
+});
+
+// Example event listener for Aryan Dixit
+const Everyone = document.querySelector('#Everyone');
+aryanDixit.addEventListener('click', function() {
+    switchChat('Everyone');
 });
 
     </script>
