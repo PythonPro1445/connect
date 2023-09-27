@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <!-- Add Firebase JavaScript SDK -->
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-messaging.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="Connect.png">
@@ -166,6 +167,9 @@
 
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
+        // Initialize Firebase Messaging
+        const messaging = firebase.messaging();
+
 
         // Reference to the Firebase Realtime Database
         var database = firebase.database();
@@ -275,7 +279,7 @@ chatRef.on("child_added", function(snapshot) {
             });
         }
 
-        function switchChat(user) {
+    function switchChat(user) {
     // Update the chatRef to the selected user's chat room
     chatRef = database.ref(user);
 
@@ -302,6 +306,7 @@ chatRef.on("child_added", function(snapshot) {
         chatBox.appendChild(messageDiv);
     });
 }
+
 
 
 
@@ -341,6 +346,47 @@ aryanDixit.addEventListener('click', function() {
     switchChat('Everyone');
 });
 
+messaging
+  .requestPermission()
+  .then(() => {
+    console.log("Notification permission granted.");
+    return messaging.getToken();
+  })
+  .then((token) => {
+    console.log("FCM token:", token);
+    // Save this token to your database for later use.
+  })
+  .catch((error) => {
+    console.error("Error getting permission:", error);
+  });
+  messaging.onMessage((payload) => {
+  console.log("Message received:", payload);
+  // You can customize how the notification appears here
+  const notificationOptions = {
+    body: payload.notification.body,
+    icon: payload.notification.icon,
+  };
+  self.registration.showNotification(
+    payload.notification.title,
+    notificationOptions
+  );
+});
+
+
     </script>
+
+<script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker
+        .register('/service-worker.js')
+        .then(function (registration) {
+          console.log('Service Worker registered with scope:', registration.scope);
+        })
+        .catch(function (error) {
+          console.error('Service Worker registration failed:', error);
+        });
+    }
+  </script>
+  
 </body>
 </html>
