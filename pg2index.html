@@ -142,6 +142,13 @@
 
         <div class="chat-box-container">
             <h1>Chat Room</h1>
+            <div id="typingIndicator-Pranav Nair"></div>
+            <div id="typingIndicator-Jamie Ziegler"></div>
+            <div id="typingIndicator-Samarth Datar"></div>
+            <div id="typingIndicator-Aryan Dixit"></div>
+
+    <!-- Add similar elements for other users -->
+
             <div class="chat-box" id="chat-box">
                 <!-- Chat messages will appear here -->
             </div>
@@ -194,13 +201,42 @@
             }
         }
 
-        // Function to handle typing status
-        function handleTyping(isTyping) {
-            const userName = localStorage.getItem("user_name");
+        const messageInput = document.getElementById("message");
+const userName = localStorage.getItem("user_name");
 
-            // Update typing status in Firebase
-            typingRef.child(userName).set(isTyping);
-        }
+// Add event listener for keydown (when the user starts typing)
+messageInput.addEventListener("keydown", function () {
+  handleTyping(true);
+});
+
+// Add event listener for keyup (when the user stops typing)
+messageInput.addEventListener("keyup", function () {
+  handleTyping(false);
+});
+
+// Function to handle typing status
+// Function to handle typing status
+function handleTyping(isTyping) {
+    const userName = localStorage.getItem("user_name");
+
+    // Update typing status in Firebase
+    typingRef.child(userName).set(isTyping);
+
+    // Update the typing indicator element for the current user
+    const typingIndicator = document.getElementById(`typingIndicator-${userName}`);
+    typingIndicator.textContent = isTyping ? "Typing..." : "";
+}
+
+// Add event listener for keydown (when the user starts typing)
+messageInput.addEventListener("keydown", function () {
+    handleTyping(true);
+});
+
+// Add event listener for keyup (when the user stops typing)
+messageInput.addEventListener("keyup", function () {
+    handleTyping(false);
+});
+
 
 // Function to receive messages from Firebase
 chatRef.on("child_added", function(snapshot) {
