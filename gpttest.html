@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quadfore Chat</title>
+    <style>
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Nunito';
+        background-color: #f0f0f0;
+    }
+
+    .chat-container {
+        max-width: 900px;
+        margin: 20px auto;
+        background-color: #fff;
+        border-radius: 10px;
+        margin-left: 500px;
+        margin-top: -650px;
+        height: 650px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .chat-header {
+        display: flex;
+        align-items: center;
+        padding: 20px;
+        background-color: #007BFF;
+        color: #fff;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+        max-height: 50px
+        ;
+    }
+
+    .chat-messages {
+        flex: 1;
+        padding: 20px;
+        overflow-y: scroll;
+    }
+
+    .message {
+        margin-bottom: 15px;
+        padding: 10px;
+        border-radius: 8px;
+    }
+
+    .incoming {
+        background-color: #e5e5e5;
+    }
+
+    .outgoing {
+        background-color: #075E54;
+        color: #fff;
+        align-self: flex-end;
+    }
+
+    .user {
+        font-weight: bold;
+        margin-right: 5px;
+    }
+
+    .chat-input {
+        display: flex;
+        padding: 10px;
+    }
+
+    textarea {
+        flex: 1;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        resize: none;
+    }
+
+    .send-button {
+        padding: 10px 15px;
+        margin-left: 10px;
+        background-color: #007BFF;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .sidebar {
+        background-color: white;
+        height: 650px;
+        width: 400px;
+        border-radius: 10px;
+        margin-top: 40px;
+        margin-left: 50px;
+    }
+
+    .contact {
+        margin-top: 10px;
+        margin-left: 20px;
+        margin-bottom: 30px;
+    }
+
+    .person-content {
+        display: flex;
+        margin-bottom: 100px;
+    }
+
+
+    .contactcontainer1{
+        height: 90px;
+        width: 350px;
+        border-radius: 10px;
+        background-color: #dbd6d6;
+        padding-top: 10px;
+        padding-left: 10px;
+    }
+    </style>
+
+    <!-- Add your stylesheets -->
+    <link rel="icon" href="quadforelogo.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200;0,300;1,300&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;1,100;1,200;1,300;1,400;1,500;1,600&display=swap">
+
+    <!-- Add Firebase JavaScript SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+    <!-- Initialize Firebase -->
+    <script>
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        const firebaseConfig = {
+            apiKey: "AIzaSyAcGh8u0Z_daCQUpyDY283Xd_BCBOZa3Pc",
+            authDomain: "quadfore-chat.firebaseapp.com",
+            databaseURL: "https://quadfore-chat-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "quadfore-chat",
+            storageBucket: "quadfore-chat.appspot.com",
+            messagingSenderId: "1004093806600",
+            appId: "1:1004093806600:web:e069957b115bb8fbdd99bd",
+            measurementId: "G-M25SYWBQB2"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+
+        database = firebase.database()
+    </script>
+</head>
+
+<body>
+    <div class="website-content">
+
+    
+    <div class="sidebar">
+        <div class="contactsheader" style="padding-left: 20px; padding-top: 20px;">
+            <div class="contentsinheader" style="margin-top: -15px;"  >
+                <span>
+                    <h1>Your Contacts</h1>
+                    <span>
+                        <input type="text" id="search" style=" width: 250px; height: 20px; border-radius: 10px; border: 2px solid black; padding: 10px; font-size: 15px; margin-top: -20px;" placeholder="Search Your Contacts Here">                                                
+                    </span>
+                </span>
+            </div>
+        </div>
+        
+    </div>
+
+    <div class="chat-container">
+        <div class="chat-header">
+            <img src="group.png" style="height: 70px;" alt="Logo" class="chat-logo">
+            <h1>Group Chat</h1>
+        </div>
+
+        <div class="chat-messages" id="chat-messages">
+            <!-- Chat messages will be displayed here -->
+        </div>
+
+        <div class="chat-input">
+            <textarea placeholder="Type your message" id="message-input"></textarea>
+            <button class="send-button" onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+</div>
+
+    <body>
+        <script>
+var database = firebase.database();
+
+// Uncomment the following code to store contacts in Firebase
+var contactsRef = database.ref("contacts");
+
+// Example contact data, replace this with your actual data
+/*
+var contactData = [
+    { email: "pranav@gmail.com", name: "Pranav Nair", profilePic: "pranav.jpg" },
+    { email: "samarth@gmail.com", name: "Samarth Datar", profilePic: "sam.jpg" },
+    { email: "arjun@gmail.com", name: "Arjun Randhawa", profilePic: "contact.png" },
+    { email: "caden@gmail.com", name: "Caden Parker", profilePic: "caden.jpg" }
+];
+
+
+// Loop through the contact data and add each contact to Firebase
+contactData.forEach(function (contact) {
+    contactsRef.push(contact);
+});
+*/
+
+// Inside the code where you display contacts
+var contactsContainer = document.querySelector('.sidebar');
+
+// Function to fetch contacts from Firebase and display them
+function displayContacts() {
+    var contactsRef = database.ref("contacts");
+
+    contactsRef.on("child_added", function(snapshot) {
+        var contactData = snapshot.val();
+        var contactElement = document.createElement("div");
+        contactElement.className = "contact";
+        contactElement.innerHTML = `
+                    <div class="contactcontainer1" onclick="startChat('${contactData.email}')">
+                        <span class="person-content"  style="margin-top: 10px;">
+                <img src="${contactData.profilePic}" style="height: 70px; margin-top: -10px; margin-left: 10px; border-radius: 300px; border: 2px solid black;" alt="">
+                <span style="margin-left: 20px; margin-top: -20px;">
+                    <h1 style="margin-bottom: 10px; font-size: 30px;">${contactData.name}</h1>
+                    <h4 style="margin-top: -10px; margin-left: 4px;">Last Msg</h4>
+                </span>
+            </span>
+                    </div>
+                `;
+        contactsContainer.appendChild(contactElement);
+    });
+}
+
+displayContacts()
+
+
+        // Reference to the Firebase Realtime Database
+        var database = firebase.database();
+        var chatRef = database.ref("Pranav Nair");
+        var typingRef = database.ref("typing"); // New reference for typing status
+        var chatBox = document.getElementById("chat-box");
+
+        // Function to send a message
+        function sendMessage() {
+            const messageInput = document.getElementById("message");
+            const messageText = messageInput.value.trim();
+            const userName = localStorage.getItem("user_name");
+
+            if (messageText !== "") {
+                chatRef.push({
+                    text: messageText,
+                    sender: userName,
+                });
+
+                // Clear the message input field
+                messageInput.value = "";
+            }
+        }
+
+        const messageInput = document.getElementById("message");
+const userName = localStorage.getItem("user_name");
+
+// Add event listener for keydown (when the user starts typing)
+messageInput.addEventListener("keydown", function () {
+  handleTyping(true);
+});
+
+// Add event listener for keyup (when the user stops typing)
+messageInput.addEventListener("keyup", function () {
+  handleTyping(false);
+});
+
+// Function to handle typing status
+// Function to handle typing status
+function handleTyping(isTyping) {
+    const userName = localStorage.getItem("user_name");
+
+    // Update typing status in Firebase
+    typingRef.child(userName).set(isTyping);
+
+    // Update the typing indicator element for the current user
+    const typingIndicator = document.getElementById(`typingIndicator-${userName}`);
+    typingIndicator.textContent = isTyping ? "Typing..." : "";
+}
+
+// Add event listener for keydown (when the user starts typing)
+messageInput.addEventListener("keydown", function () {
+    handleTyping(true);
+});
+
+// Add event listener for keyup (when the user stops typing)
+messageInput.addEventListener("keyup", function () {
+    handleTyping(false);
+});
+
+
+// Function to receive messages from Firebase
+chatRef.on("child_added", function(snapshot) {
+    // Get the message data
+    var message = snapshot.val();
+    
+    // Create a new message element
+    var messageDiv = document.createElement("div");
+    messageDiv.classList.add("message");
+
+    // Determine if the message is from the current user or another user
+    if (message.sender === localStorage.getItem("user_name")) {
+        messageDiv.classList.add("user");
+        messageDiv.innerHTML = `<strong>You:</strong> ${message.text}`;
+    } else {
+        messageDiv.classList.add("other");
+        messageDiv.innerHTML = `<strong>${message.sender}:</strong> ${message.text}`;
+    }
+
+    // Append the message element to the chat box
+    chatBox.appendChild(messageDiv);
+
+    // Scroll to the bottom of the chat box
+    chatBox.scrollTop = chatBox.scrollHeight;
+});
+
+
+        // Listen for changes in typing status
+        typingRef.on("child_changed", function(snapshot) {
+            const userName = snapshot.key;
+            const isTyping = snapshot.val();
+
+            // Display "is typing" message
+            if (isTyping) {
+                // Create a message indicating the user is typing
+                const typingMessage = document.createElement("div");
+                typingMessage.classList.add("message", "typing");
+                typingMessage.textContent = `${userName} is typing...`;
+
+                chatBox.appendChild(typingMessage);
+
+                // Scroll to the bottom of the chat box
+                chatBox.scrollTop = chatBox.scrollHeight;
+            } else {
+                // Remove the "is typing" message when the user stops typing
+                const typingMessages = document.querySelectorAll(".message.typing");
+                typingMessages.forEach(function(element) {
+                    element.remove();
+                });
+            }
+        });
+
+        // Reference to the Firebase Realtime Database
+        var chatRef = database.ref("chat");
+
+        // Function to receive messages from Firebase
+        chatRef.on("child_added", function(snapshot) {
+            var message = snapshot.val();
+            var messageDiv = document.createElement("div");
+            messageDiv.classList.add("message", message.sender);
+
+            // Display sender's name along with the message
+            messageDiv.innerHTML = `<strong>${message.sender}:</strong> ${message.text}`;
+
+            chatBox.appendChild(messageDiv);
+
+            // Scroll to the bottom of the chat box
+            chatBox.scrollTop = chatBox.scrollHeight;
+        });
+
+        // Example: Simulate receiving a message from the other user (friend)
+        function receiveMessage(message) {
+            chatRef.push({
+                text: message,
+                sender: "friend"
+            });
+        }
+
+    function switchChat(user) {
+    // Update the chatRef to the selected user's chat room
+    chatRef = database.ref(user);
+
+    // Clear existing chat messages
+    chatBox.innerHTML = '';
+
+    // Load and display the chat messages between the current user and the selected user
+    chatRef.on("child_added", function(snapshot) {
+        // Display the messages
+        // You can differentiate between messages sent by the current user and the other user
+        const message = snapshot.val();
+        const messageDiv = document.createElement("div");
+        messageDiv.classList.add("message");
+
+        // Check if the message is from the current user or the selected user
+        if (message.sender === localStorage.getItem("user_name")) {
+            messageDiv.classList.add("user");
+            messageDiv.innerHTML = `<strong>You:</strong> ${message.text}`;
+        } else {
+            messageDiv.classList.add("other");
+            messageDiv.innerHTML = `<strong>${message.sender}:</strong> ${message.text}`;
+        }
+
+        chatBox.appendChild(messageDiv);
+    });
+}
+
+
+
+
+        // Example event listener for Pranav Nair
+        const pranavNair = document.querySelector('#pranavNair');
+        pranavNair.addEventListener('click', function() {
+            switchChat('Pranav Nair');
+        });
+
+        // Example event listener for Arjun Randhawa
+        const arjunRandhawa = document.querySelector('#arjunRandhawa');
+        arjunRandhawa.addEventListener('click', function() {
+            switchChat('Arjun Randhawa');
+        });
+
+        // Example event listener for Jamie Ziegler
+const jamieZiegler = document.querySelector('#jamieZiegler');
+jamieZiegler.addEventListener('click', function() {
+    switchChat('Jamie Ziegler');
+});
+
+// Example event listener for Samarth Datar
+const samarthDatar = document.querySelector('#samarthDatar');
+samarthDatar.addEventListener('click', function() {
+    switchChat('Samarth Datar');
+});
+
+// Example event listener for Aryan Dixit
+const aryanDixit = document.querySelector('#aryanDixit');
+aryanDixit.addEventListener('click', function() {
+    switchChat('Aryan Dixit');
+});
+
+// Example event listener for Aryan Dixit
+const Everyone = document.querySelector('#Everyone');
+aryanDixit.addEventListener('click', function() {
+    switchChat('Everyone');
+});
+
+messaging
+  .requestPermission()
+  .then(() => {
+    console.log("Notification permission granted.");
+    return messaging.getToken();
+  })
+  .then((token) => {
+    console.log("FCM token:", token);
+    // Save this token to your database for later use.
+  })
+  .catch((error) => {
+    console.error("Error getting permission:", error);
+  });
+  messaging.onMessage((payload) => {
+    console.log("Message received:", payload);
+    // You can customize how the notification appears here
+    const notificationOptions = {
+        body: payload.notification.body,
+        icon: payload.notification.icon,
+    };
+    self.registration.showNotification(
+        payload.notification.title,
+        notificationOptions
+    );
+});
+
+
+
+    </script>
+
+<script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker
+        .register('/service-worker.js')
+        .then(function (registration) {
+          console.log('Service Worker registered with scope:', registration.scope);
+        })
+        .catch(function (error) {
+          console.error('Service Worker registration failed:', error);
+        });
+    }
+  </script>
+  
+</body>
+</html>
