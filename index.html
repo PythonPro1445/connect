@@ -1,10 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
+<html lang="en"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="Connect.png">
-    <title>Connect</title>
+    
+
+    <link rel="icon" href="quadforelogo.png">
+    <title>Quadfore Login</title>
+    
     <style>
         body {
             margin: 0;
@@ -16,11 +17,13 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
+            animation: fadeIn 1.5s ease-in-out;
+
         }
 
         .login-container {
             font-family: adobe-clean,Source Sans Pro,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif;
-            background-color: rgba(255, 255, 255);
+            background-color: #d7d7e6;
             border-radius: 10px;
             padding-left: 40px;
             padding-right: 40px;
@@ -29,7 +32,8 @@
             text-align: center;
             width: 440px;
             margin-left: 100px; /* Move the container 100 pixels to the right */
-            height: 600px; /* Reduced the height for a better look */
+            height: 620px; /* Reduced the height for a better look */
+            margin-right: -400px;
         }
 
         h1 {
@@ -66,7 +70,7 @@
             margin-top: 10px;
         }
 
-        input[type="text"],
+        input[type="email"],
         input[type="password"] {
             width: 95%;
             padding: 10px;
@@ -95,10 +99,12 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(255, 255, 255);
             justify-content: center;
+            background-color: #231f20;
             align-items: center;
             z-index: 9999;
+            animation: fadeIn 2s ease-in-out;
+
         }
 
         .loading-spinner {
@@ -114,11 +120,12 @@
         }
 
         .loading-spinner img {
-            width: 1250px; /* Adjust the size of the spinner */
+            width: 500px; /* Adjust the size of the spinner */
         }
 
         .image-and-text-container {
             text-align: center;
+            margin-right: 200px;
         }
 
         .image-and-text-container img {
@@ -147,6 +154,7 @@
     border-radius: 50px;
     width: 420px;
     height: 50px;
+    background-color: d7d7e6;
 }
 
 .google-login {
@@ -196,14 +204,145 @@
             animation: fadeIn 2s ease-in-out;
         }
 
+        .parallax {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+}
+.parallax .layer {
+  position: absolute;
+}
+.parallax .p1 {
+  left: 10%;
+  top: 10%;
+}
+.parallax .p2 {
+  left: 25%;
+  top: 30%;
+}
+.parallax .p3 {
+  left: 15%;
+  bottom: 30%;
+}
+.parallax .p4 {
+  left: 10%;
+  bottom: 10%;
+}
+.parallax .p5 {
+  left: 45%;
+  top: 10%;
+}
+.parallax .p6 {
+  left: 40%;
+  bottom: 10%;
+}
+.parallax .p7 {
+  top: 20%;
+  right: 1%;
+}
+.parallax .p8 {
+  right: 30%;
+  bottom: 7%;
+}
+.parallax .p9 {
+  right: 10%;
+  top: 1%;
+}
+.parallax .p11 {
+  bottom: 10%;
+  right: 10%;
+}
+
+.image-and-text-container {
+    margin-right: 0; /* Remove negative margin */
+}
+
+.login-container {
+    z-index: 1000; /* Adjust the value as needed */
+}
+
+/* Add these styles to your existing CSS */
+
+/* Keyframes for the fadeIn animation */
+@keyframes fadeIn {
+    0% {
+        opacity: 0; /* Start with transparency */
+        transform: translateY(-20px); /* Move the element up */
+    }
+    100% {
+        opacity: 1; /* Fully opaque at the end */
+        transform: translateY(0); /* Move the element back to its original position */
+    }
+}
+
+/* Apply the animation to the background gallery element */
+#background-gallery.fade-in {
+    animation: fadeIn 2s ease-in-out;
+}
+
+/* Add an animation for the login container */
+.login-container {
+    animation: fadeIn 1.5s ease-in-out;
+}
+
+/* Add an animation for the social login buttons */
+.social-login-container button {
+    transition: transform 0.3s ease-in-out;
+}
+
+/* Hover effect for social login buttons */
+.social-login-container button:hover {
+    transform: scale(1.1); /* Scale up the button on hover */
+}
+
+.login{
+    width: 100px;
+}
+
+.login:hover{
+    transition: transform 0.3s ease-in-out;
+    transform: scale(1.1); /* Scale up the button on hover */
+}
+
     </style>
 </head>
-<body>
-    <div id="background-gallery"></div>
+<body style="background-color: #353353;">
 
+    <div class="containershapes">
+
+        <!-- parallax layers -->
+        <div class="parallax" data-relative-input="true" style="transform: translate3d(0px, 0px, 0px); transform-style: preserve-3d; backface-visibility: hidden;">
+
+            <svg width="27" height="29" data-depth="0.3" class="layer p1" xmlns="http://www.w3.org/2000/svg" style="transform: translate3d(-7.20601px, 17.2034px, 0px); transform-style: preserve-3d; backface-visibility: hidden; position: relative; display: block;"><path d="M21.15625.60099c4.37954 3.67487 6.46544 9.40612 5.47254 15.03526-.9929 5.62915-4.91339 10.30141-10.2846 12.25672-5.37122 1.9553-11.3776.89631-15.75715-2.77856l2.05692-2.45134c3.50315 2.93948 8.3087 3.78663 12.60572 2.22284 4.297-1.5638 7.43381-5.30209 8.22768-9.80537.79387-4.50328-.8749-9.08872-4.37803-12.02821L21.15625.60099z" fill="#FFD15C" fill-rule="evenodd"></path></svg>
+
+            <svg width="26" height="26" data-depth="0.2" class="layer p2" xmlns="http://www.w3.org/2000/svg" style="transform: translate3d(-4.80401px, 11.4689px, 0px); transform-style: preserve-3d; backface-visibility: hidden; position: absolute; display: block;"><path d="M13 3.3541L2.42705 24.5h21.1459L13 3.3541z" stroke="#FF4C60" stroke-width="3" fill="none" fill-rule="evenodd"></path></svg>
+
+            <svg width="30" height="25" data-depth="0.3" class="layer p3" xmlns="http://www.w3.org/2000/svg" style="transform: translate3d(-7.20601px, 17.2034px, 0px); transform-style: preserve-3d; backface-visibility: hidden; position: absolute; display: block;"><path d="M.1436 8.9282C3.00213 3.97706 8.2841.92763 14.00013.92796c5.71605.00032 10.9981 3.04992 13.85641 8 2.8583 4.95007 2.8584 11.0491-.00014 16.00024l-2.77128-1.6c2.28651-3.96036 2.28631-8.84002.00011-12.8002-2.2862-3.96017-6.5124-6.40017-11.08513-6.4-4.57271.00018-8.79872 2.43984-11.08524 6.4002l-2.77128-1.6z" fill="#44D7B6" fill-rule="evenodd"></path></svg>
+
+            <svg width="15" height="23" data-depth="0.6" class="layer p4" xmlns="http://www.w3.org/2000/svg" style="transform: translate3d(-14.412px, 34.4068px, 0px); transform-style: preserve-3d; backface-visibility: hidden; position: absolute; display: block;"><rect transform="rotate(30 9.86603 10.13397)" x="7" width="3" height="25" rx="1.5" fill="#FFD15C" fill-rule="evenodd"></rect></svg>
+
+            <svg width="15" height="23" data-depth="0.2" class="layer p5" xmlns="http://www.w3.org/2000/svg" style="transform: translate3d(-4.80401px, 11.4689px, 0px); transform-style: preserve-3d; backface-visibility: hidden; position: absolute; display: block;"><rect transform="rotate(30 9.86603 10.13397)" x="7" width="3" height="25" rx="1.5" fill="#6C6CE5" fill-rule="evenodd"></rect></svg>
+
+            <svg width="49" height="17" data-depth="0.5" class="layer p6" xmlns="http://www.w3.org/2000/svg" style="transform: translate3d(-12.01px, 28.6724px, 0px); transform-style: preserve-3d; backface-visibility: hidden; position: absolute; display: block;"><g fill="#FF4C60" fill-rule="evenodd"><path d="M.5 16.5c0-5.71709 2.3825-10.99895 6.25-13.8567 3.8675-2.85774 8.6325-2.85774 12.5 0C23.1175 5.50106 25.5 10.78292 25.5 16.5H23c0-4.57303-1.90625-8.79884-5-11.08535-3.09375-2.28652-6.90625-2.28652-10 0C4.90625 7.70116 3 11.92697 3 16.5H.5z"></path><path d="M23.5 16.5c0-5.71709 2.3825-10.99895 6.25-13.8567 3.8675-2.85774 8.6325-2.85774 12.5 0C46.1175 5.50106 48.5 10.78292 48.5 16.5H46c0-4.57303-1.90625-8.79884-5-11.08535-3.09375-2.28652-6.90625-2.28652-10 0-3.09375 2.28651-5 6.51232-5 11.08535h-2.5z"></path></g></svg>
+
+            <svg width="26" height="26" data-depth="0.4" class="layer p7" xmlns="http://www.w3.org/2000/svg" style="transform: translate3d(-9.60801px, 22.9379px, 0px); transform-style: preserve-3d; backface-visibility: hidden; position: absolute; display: block;"><path d="M13 22.6459L2.42705 1.5h21.1459L13 22.6459z" stroke="#FFD15C" stroke-width="3" fill="none" fill-rule="evenodd"></path></svg>
+
+            <svg width="19" height="21" data-depth="0.3" class="layer p8" xmlns="http://www.w3.org/2000/svg" style="transform: translate3d(-7.20601px, 17.2034px, 0px); transform-style: preserve-3d; backface-visibility: hidden; position: absolute; display: block;"><rect transform="rotate(-40 6.25252 10.12626)" x="7" width="3" height="25" rx="1.5" fill="#6C6CE5" fill-rule="evenodd"></rect></svg>
+
+            <svg width="30" height="25" data-depth="0.3" data-depth-y="-1.30" class="layer p9" xmlns="http://www.w3.org/2000/svg" style="transform: translate3d(-7.20601px, 17.2034px, 0px); transform-style: preserve-3d; backface-visibility: hidden; position: absolute; display: block;"><path d="M29.8564 16.0718c-2.85854 4.95114-8.1405 8.00057-13.85654 8.00024-5.71605-.00032-10.9981-3.04992-13.85641-8-2.8583-4.95007-2.8584-11.0491.00014-16.00024l2.77128 1.6c-2.28651 3.96036-2.28631 8.84002-.00011 12.8002 2.2862 3.96017 6.5124 6.40017 11.08513 6.4 4.57271-.00018 8.79872-2.43984 11.08524-6.4002l2.77128 1.6z" fill="#6C6CE5" fill-rule="evenodd"></path></svg>
+
+            <svg width="33" height="20" data-depth="0.5" class="layer p11" xmlns="http://www.w3.org/2000/svg" style="transform: translate3d(-12.01px, 28.6724px, 0px); transform-style: preserve-3d; backface-visibility: hidden; position: absolute; display: block;"><path d="M32.36774.34317c.99276 5.63023-1.09332 11.3614-5.47227 15.03536-4.37895 3.67396-10.3855 4.73307-15.75693 2.77837C5.76711 16.2022 1.84665 11.53014.8539 5.8999l3.15139-.55567c.7941 4.50356 3.93083 8.24147 8.22772 9.8056 4.29688 1.56413 9.10275.71673 12.60554-2.2227C28.34133 9.98771 30.01045 5.4024 29.21635.89884l3.15139-.55567z" fill="#FFD15C" fill-rule="evenodd"></path></svg>
+
+        </div>
+    </div>
+    
     <div class="image-and-text-container">
-        <img src="Screenshot_2023-09-14_at_9.30.18_AM-removebg-preview.png" alt="Logo">
-        <h2 style="padding-right: 160px; color: white;">Sign in or Create an Account</h2>
+        <span>
+        <img src="quadforelogo.png" style="width: 100px; margin-left: -500px;" alt="Logo">
+        <h1 style="margin-left: -200px; margin-top: -90px; color: white; font-size: 60px;">Quadfore</h1>
+        </span>    
     </div>
     <div class="login-container">        
         <form id="login-form">
@@ -212,17 +351,20 @@
                 <span>
                     <h4 style="color: black; font-weight: 300; text-align: left;">New User? <a href="https://mail.google.com" style="color: rgb(31, 91, 255);">Create Account</a></h4>
                 </span>
-                <label for="username">Username</label>
+                <div>
+                    <label for="Email">Email</label>
+                    <br>
+                    <input type="email" id="email" placeholder="Enter your Email" required>
+                    <div id="username-error" style="color: red;"></div> <!-- New line for error message -->
+                </div>
+                <div>
+                    <label for="password">Password</label>
+                    <br>
+                    <input type="password" id="password" placeholder="Enter your password" required>
+                    <div id="password-error" style="color: red;"></div> <!-- New line for error message -->
+                </div>
                 <br>
-                <input type="text" id="username" placeholder="Enter your username">
-            </div>
-            <div>
-                <label for="password">Password</label>
-                <br>
-                <input type="password" id="password" placeholder="Enter your password">
-            </div>
-            <br>
-            <input type="submit" value="Login" style="width: 100%;">
+            <input type="submit" value="Login" onclick="loginUser()" class="login">
 <!-- Social Login Buttons with Logos -->
 <div class="social-login-container">
     <h3>Or Sign In With:</h3>
@@ -236,7 +378,7 @@
     </button>
     <button class="apple-login">
         <img src="discord.png" alt="Discord Logo" class="logo" id="discord">
-        Sign in with Discord
+        Sign in with Discord        
     </button>
 </div>
 
@@ -248,35 +390,35 @@
     <div class="loading-overlay" id="loading-overlay">
         <div class="loading-spinner">
             <img src="loading.gif" alt="Loading Spinner">
+            </div>
         </div>
     </div>
+</body>
 
-    <script>
-        const imageUrls = [
-    'image1.jpg',
-    'image2.jpg',
-    'image3.jpg',
-    'image4.jpg',
-    'image5.jpg',
-    'image6.jpg',
-    'image7.jpg',
-    'image8.jpg',
-    'image9.jpg',
-    'image10.jpg'
-];
+<!-- Add Firebase JavaScript SDK -->
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
 
-function changeBackgroundImage() {
-    const randomIndex = Math.floor(Math.random() * imageUrls.length);
-    const imageUrl = imageUrls[randomIndex];
-    const backgroundGallery = document.getElementById('background-gallery');
-    backgroundGallery.style.backgroundImage = `url(${imageUrl})`;
-}
+<!-- Initialize Firebase -->
+<script>   
+        const firebaseConfig = {
+  apiKey: "AIzaSyAcGh8u0Z_daCQUpyDY283Xd_BCBOZa3Pc",
+  authDomain: "quadfore-chat.firebaseapp.com",
+  databaseURL: "https://quadfore-chat-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "quadfore-chat",
+  storageBucket: "quadfore-chat.appspot.com",
+  messagingSenderId: "1004093806600",
+  appId: "1:1004093806600:web:e069957b115bb8fbdd99bd",
+  measurementId: "G-M25SYWBQB2"
+};
 
-// Change the background image initially and set an interval to change it every 20 seconds
-changeBackgroundImage();
-setInterval(changeBackgroundImage, 10000); // 10 seconds
+    firebase.initializeApp(firebaseConfig);
+
+    var auth = firebase.auth();
+</script>
 
 
+        <script>
         // Function to show the loading overlay
         function showLoadingOverlay() {
             var loadingOverlay = document.getElementById("loading-overlay");
@@ -289,45 +431,114 @@ setInterval(changeBackgroundImage, 10000); // 10 seconds
             loadingOverlay.style.display = "none";
         }
 
-        // Function to handle form submission
-        function loginuser() {
-            showLoadingOverlay();
+    // Function to handle form submission
+    function loginUser() {
+    showLoadingOverlay();
 
-            var user_name = document.getElementById("username").value;
-            var password = document.getElementById("password").value;
+    var email = document.getElementById('email').value;
+    var password = document.getElementById('password').value;
 
-            var credentials = {
-                Pranav: "getrickrolled",
-                Samarth: "samarth",
-                Arjun: "stephcurry008",
-                Krish: "krish07",
-                Jamie: "getrickrolled123",
-                Arun: "MARUNAA1982",
-                Caden: "chadwick"
-            };
+    auth.signInWithEmailAndPassword(email, password)
+        .then((userCredential) => {
+            var user = userCredential.user;
+            console.log("Authentication successful!");
+            localStorage.setItem("email", user.email);
+            window.location.href = "gpttest.html";
+        })
+        .catch((error) => {
+            var errorcode = error.code;
+            var errormessage = error.message;
+            console.error(errormessage);
+            console.log("Authentication failed!");
+
+            // Display error messages
+            var usernameError = document.getElementById("username-error");
+            var passwordError = document.getElementById("password-error");
+            usernameError.innerText = "Incorrect Username";
+            passwordError.innerText = "Incorrect Password";
 
             setTimeout(function () {
-// Inside the loginuser() function after successful authentication
-if (credentials.hasOwnProperty(user_name) && credentials[user_name] === password) {
-    localStorage.setItem("user_name", user_name);
-    console.log("Authentication successful!");
-    window.location.href = "pg2index.html";
-} else {
-    localStorage.removeItem("user_name");
-    console.log("Authentication failed!");
-    alert("Incorrect Username Or Password");
+                usernameError.innerText = "";
+                passwordError.innerText = "";
+            }, 10000);
+
+            hideLoadingOverlay();
+        });
 }
 
+        // setTimeout(function () {
+           // var usernameError = document.getElementById("username-error");
+            //var passwordError = document.getElementById("password-error");
 
-                hideLoadingOverlay();
-            }, 5000);
-        }
+            // Inside the loginUser() function after authentication
+            //if (credentials.hasOwnProperty(user_name) && credentials[user_name] === password) {
+              //  localStorage.setItem("user_name", user_name);
+                //console.log("Authentication successful!");
+                //window.location.href = "pg2index.html";
+            //} else {
+                //localStorage.removeItem("user_name");
+                //console.log("Authentication failed!");
+                
+                // Display error messages
+//                usernameError.innerText = "Incorrect Username";
+  //              passwordError.innerText = "Incorrect Password";
+    //            
+      //          setTimeout(function () {
+        //            usernameError.innerText = ""
+          //          passwordError.innerText = ""                    
+            //    },10000);                
+            //}
 
-        // Add an event listener to submit the form when Enter key is pressed
-        document.getElementById("login-form").addEventListener("submit", function (e) {
-            e.preventDefault();
-            loginuser();
-        });
+            //hideLoadingOverlay();
+        //}, 8000);
+    //}
+
+    // Add an event listener to submit the form when Enter key is pressed
+    document.getElementById("login-form").addEventListener("submit", function (e) {
+        e.preventDefault();
+        loginUser();
+    });
+</script>
+
     </script>
-</body>
-</html>
+<!-- Code injected by live-server -->
+<script>
+	// <![CDATA[  <-- For SVG support
+	if ('WebSocket' in window) {
+		(function () {
+			function refreshCSS() {
+				var sheets = [].slice.call(document.getElementsByTagName("link"));
+				var head = document.getElementsByTagName("head")[0];
+				for (var i = 0; i < sheets.length; ++i) {
+					var elem = sheets[i];
+					var parent = elem.parentElement || head;
+					parent.removeChild(elem);
+					var rel = elem.rel;
+					if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+						var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+						elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+					}
+					parent.appendChild(elem);
+				}
+			}
+			var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+			var address = protocol + window.location.host + window.location.pathname + '/ws';
+			var socket = new WebSocket(address);
+			socket.onmessage = function (msg) {
+				if (msg.data == 'reload') window.location.reload();
+				else if (msg.data == 'refreshcss') refreshCSS();
+			};
+			if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
+				console.log('Live reload enabled.');
+				sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+			}
+		})();
+	}
+	else {
+		console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
+	}
+	// ]]>
+</script>
+
+
+</body></html>
